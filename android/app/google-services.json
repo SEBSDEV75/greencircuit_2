@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "885696725145",
+    "firebase_url": "https://react-native-app-31d60-default-rtdb.firebaseio.com",
+    "project_id": "react-native-app-31d60",
+    "storage_bucket": "react-native-app-31d60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885696725145:android:2470255ec848635541b808",
+        "android_client_info": {
+          "package_name": "com.example.app_greencircuit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885696725145-ephffluf307k0rfvc582fgh32ph2v0k2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app_greencircuit",
+            "certificate_hash": "0e239f9270a85ef252f7fb8bc797c7a77a16874d"
+          }
+        },
+        {
+          "client_id": "885696725145-r0kegh4vh1vjjnvq429smji7m8u978hl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHz0MX5nee1LYhG1jat5_FwLEjyP2U8rc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885696725145-r0kegh4vh1vjjnvq429smji7m8u978hl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "885696725145-a59rpb7penmib3edun2c6dnk033qki55.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.appGreencircuit.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885696725145:android:ff2132f0893c74b341b808",
+        "android_client_info": {
+          "package_name": "com.example.greencircuit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885696725145-r0kegh4vh1vjjnvq429smji7m8u978hl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHz0MX5nee1LYhG1jat5_FwLEjyP2U8rc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885696725145-r0kegh4vh1vjjnvq429smji7m8u978hl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "885696725145-a59rpb7penmib3edun2c6dnk033qki55.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.appGreencircuit.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
