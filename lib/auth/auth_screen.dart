@@ -10,19 +10,16 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  bool a = true;
-  void go() {
+  bool showLogin = true;
+
+  void toggleScreens() {
     setState(() {
-      a = !a;
+      showLogin = !showLogin;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (a) {
-      return LoginScreen(go);
-    } else {
-      return SignupScreen(go);
-    }
+    return showLogin ? LoginScreen(toggleScreens) : SignupScreen(toggleScreens);
   }
 }

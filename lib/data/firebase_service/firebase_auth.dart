@@ -32,6 +32,7 @@ class Authentication {
     required String username,
     required String bio,
     File? profile,
+    File? image,
   }) async {
     String URL = '';
     try {

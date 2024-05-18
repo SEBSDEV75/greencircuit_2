@@ -139,7 +139,7 @@ class _PostWidgetState extends State<PostWidget> {
                             : Icons.favorite_border,
                         color: widget.snapshot['like'].contains(user)
                             ? Colors.red
-                            : Colors.black,
+                            : icons,
                         size: 24.w,
                       ),
                     ),
@@ -171,22 +171,7 @@ class _PostWidgetState extends State<PostWidget> {
                     child: Image.asset(
                       'images/comment.webp',
                       height: 28.h,
-                      color: primary,
-                    ),
-                  ),
-                  SizedBox(width: 17.w),
-                  Image.asset(
-                    'images/send.png',
-                    height: 28.h,
-                    color: primary,
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: EdgeInsets.only(right: 15.w),
-                    child: Image.asset(
-                      'images/save.png',
-                      height: 28.h,
-                      color: primary,
+                      color: icons,
                     ),
                   ),
                 ],

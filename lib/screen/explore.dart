@@ -24,7 +24,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -172,7 +172,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     },
                     controller: search,
                     decoration: const InputDecoration(
-                      hintText: 'Search User',
+                      hintText: 'Buscar por nombre de usuario',
                       hintStyle: TextStyle(color: Colors.black),
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,

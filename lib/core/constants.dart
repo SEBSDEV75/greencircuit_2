@@ -1,21 +1,17 @@
 // App-wide colors
 import 'package:flutter/material.dart';
 
-const Color primary =
-    Color.fromARGB(255, 178, 189, 165); // Verde suave para modo claro
-const Color secondary =
-    Color.fromARGB(255, 77, 119, 103); // Verde oscuro para modo oscuro
-const Color gray900 =
-    Color.fromARGB(255, 33, 33, 33); // Gris oscuro para botones
-const Color icons =
-    Color.fromARGB(255, 160, 140, 196); // Púrpura suave para íconos
-const Color icons2 =
-    Color.fromARGB(255, 167, 117, 177); // Otro tono de púrpura para íconos
+//Theme.of(context).primaryColor
+//color: const Color.fromARGB(255, 160, 119, 179)
+const Color primary = Color.fromARGB(255, 233, 238, 233);
+const Color secondary = Color.fromARGB(255, 72, 87, 73);
+const Color gray900 = Color.fromARGB(255, 33, 33, 33);
+const Color gray700 = Color.fromARGB(255, 64, 68, 60);
+const Color icons = Color.fromARGB(255, 160, 140, 196);
+const Color icons2 = Color.fromARGB(255, 167, 117, 177);
 
-const Color backgroundlight =
-    Color.fromARGB(255, 217, 214, 223); // Color de fondo
-const Color backgrounddark =
-    Color.fromARGB(255, 217, 214, 223); // Color de fondo
+const Color backgroundlight = Color.fromARGB(255, 217, 214, 223);
+const Color backgrounddark = Color.fromARGB(255, 217, 214, 223);
 
 const Color black = Colors.black;
 const Color white = Colors.white;

@@ -1,15 +1,17 @@
 // ignore_for_file: non_constant_identifier_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, dead_code
 
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:greencircuit/data/firebase_service/firebase_auth.dart';
 import 'package:greencircuit/util/dialog.dart';
 import 'package:greencircuit/util/imagepicker.dart';
 
+import '../core/constants.dart'; // Asegúrate de importar las constantes
+
 class SignupScreen extends StatefulWidget {
-  final VoidCallback show;
-  const SignupScreen(this.show, {Key? key}) : super(key: key);
+  final VoidCallback showLogin;
+  const SignupScreen(this.showLogin, {Key? key}) : super(key: key);
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -28,6 +30,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final bio_F = FocusNode();
   File? _imageFile;
   final _formKey = GlobalKey<FormState>();
+  bool _isPasswordHidden = true;
 
   @override
   void dispose() {
@@ -47,8 +50,8 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     const _emailPattern = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
-    const _passwordPattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{7,}$";
-    bool _isPasswordHidden = true;
+    const _passwordPattern =
+        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@\$!%*?&])[A-Za-z\d@$!%*?&]{7,}$";
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -57,13 +60,13 @@ class _SignupScreenState extends State<SignupScreen> {
         onTap: () => FocusScope.of(context).unfocus(),
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
             child: Form(
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  const SizedBox(height: 80.0),
+                  SizedBox(height: 80.h),
                   InkWell(
                     onTap: () async {
                       File _imagefilee =
@@ -73,17 +76,17 @@ class _SignupScreenState extends State<SignupScreen> {
                       });
                     },
                     child: CircleAvatar(
-                      radius: 36.0,
+                      radius: 36.r,
                       backgroundColor: Colors.grey,
                       child: _imageFile == null
                           ? CircleAvatar(
-                              radius: 34.0,
+                              radius: 34.r,
                               backgroundImage:
                                   const AssetImage('images/person.png'),
                               backgroundColor: Colors.grey.shade200,
                             )
                           : CircleAvatar(
-                              radius: 34.0,
+                              radius: 34.r,
                               backgroundImage: Image.file(
                                 _imageFile!,
                                 fit: BoxFit.cover,
@@ -92,107 +95,172 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                     ),
                   ),
-                  const SizedBox(height: 20.0),
+                  SizedBox(height: 20.h),
                   TextFormField(
                     controller: email,
                     focusNode: email_F,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Correo Electrónico',
-                      prefixIcon: Icon(Icons.email),
+                      prefixIcon: const Icon(Icons.email, color: icons),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: const BorderSide(
+                          color: gray900,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: const BorderSide(
+                          color: gray900,
+                        ),
+                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Por favor ingrese su correo electrónico';
-                      }
-                      if (!RegExp(_emailPattern).hasMatch(value)) {
+                      } else if (!RegExp(_emailPattern).hasMatch(value)) {
                         return 'Por favor ingrese un correo electrónico válido';
                       }
                       return null;
                     },
                   ),
-                  const SizedBox(height: 10.0),
-                  TextFormField(
-                    controller: username,
-                    focusNode: username_F,
-                    decoration: const InputDecoration(
-                      labelText: 'Nombre',
-                      prefixIcon: Icon(Icons.person),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Por favor ingrese su nombre';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10.0),
-                  TextFormField(
-                    controller: bio,
-                    focusNode: bio_F,
-                    decoration: const InputDecoration(
-                      labelText: 'Biografía',
-                      prefixIcon: Icon(Icons.description),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.length < 5) {
-                        return 'La biografía debe tener al menos 5 caracteres';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10.0),
+                  SizedBox(height: 10.h),
                   TextFormField(
                     controller: password,
                     focusNode: password_F,
                     decoration: InputDecoration(
                       labelText: 'Contraseña',
-                      prefixIcon: const Icon(Icons.lock),
+                      prefixIcon: const Icon(Icons.lock, color: icons),
                       suffixIcon: IconButton(
-                        icon: Icon(_isPasswordHidden
-                            ? Icons.visibility
-                            : Icons.visibility_off),
+                        icon: Icon(
+                          _isPasswordHidden
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: icons,
+                        ),
                         onPressed: () {
                           setState(() {
                             _isPasswordHidden = !_isPasswordHidden;
                           });
                         },
                       ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: const BorderSide(
+                          color: gray900,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: const BorderSide(
+                          color: gray900,
+                        ),
+                      ),
                     ),
                     obscureText: _isPasswordHidden,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Por favor ingrese su contraseña';
-                      }
-                      if (value.length < 7) {
-                        return 'La contraseña debe tener al menos 7 caracteres';
-                      }
-                      if (!RegExp(_passwordPattern).hasMatch(value)) {
-                        return 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número';
+                      } else if (value.length <= 6) {
+                        return 'La contraseña debe tener más de 6 caracteres';
+                      } else if (!RegExp(_passwordPattern).hasMatch(value)) {
+                        return 'La contraseña debe tener una mayúscula, una minúscula, un número y un carácter especial';
                       }
                       return null;
                     },
                   ),
-                  const SizedBox(height: 10.0),
+                  SizedBox(height: 10.h),
                   TextFormField(
                     controller: passwordConfirme,
                     focusNode: passwordConfirme_F,
-                    decoration: const InputDecoration(
-                      labelText: 'Confirmar Contraseña',
-                      prefixIcon: Icon(Icons.lock),
+                    decoration: InputDecoration(
+                      labelText: 'Confirme su contraseña',
+                      prefixIcon: const Icon(Icons.lock, color: icons),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: const BorderSide(
+                          color: gray900,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: const BorderSide(
+                          color: gray900,
+                        ),
+                      ),
                     ),
-                    obscureText: true,
+                    obscureText: _isPasswordHidden,
                     validator: (value) {
-                      if (value != password.text) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor confirme su contraseña';
+                      } else if (value != password.text) {
                         return 'Las contraseñas no coinciden';
                       }
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20.0),
+                  SizedBox(height: 10.h),
+                  TextFormField(
+                    controller: username,
+                    focusNode: username_F,
+                    decoration: InputDecoration(
+                      labelText: 'Nombre de usuario',
+                      prefixIcon: const Icon(Icons.person, color: icons),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: const BorderSide(
+                          color: gray900,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: const BorderSide(
+                          color: gray900,
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingrese su nombre de usuario';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 10.h),
+                  TextFormField(
+                    controller: bio,
+                    focusNode: bio_F,
+                    decoration: InputDecoration(
+                      labelText: 'Bio',
+                      prefixIcon: const Icon(Icons.info, color: icons),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: const BorderSide(
+                          color: gray900,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.r),
+                        borderSide: const BorderSide(
+                          color: gray900,
+                        ),
+                      ),
+                    ),
+                    maxLines: 3,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor ingrese una breve bio';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 20.h),
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        // Usar context de la función build del widget padre
+                        var parentContext = context;
                         try {
                           await Authentication().Signup(
                             email: email.text,
@@ -202,74 +270,66 @@ class _SignupScreenState extends State<SignupScreen> {
                             bio: bio.text,
                             profile: _imageFile ?? File(''),
                           );
-                          _showVerificationMessage();
+
+                          showDialog(
+                            context: parentContext,
+                            builder: (context) => AlertDialog(
+                              title: Text(
+                                'Correo de Verificación Enviado',
+                                style: TextStyle(fontSize: 24.sp),
+                              ),
+                              content: Text(
+                                'Por favor, revisa tu bandeja de entrada y sigue las instrucciones para verificar tu correo electrónico.',
+                                style: TextStyle(fontSize: 16.sp),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  child: Text(
+                                    'OK',
+                                    style: TextStyle(fontSize: 18.sp),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         } on Exception catch (e) {
-                          dialogBuilder(context, e.toString());
+                          dialogBuilder(parentContext, e.toString());
                         }
                       }
                     },
-                    child: const Text('Registrarse'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: white,
+                      backgroundColor: primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                    ),
+                    child: Text(
+                      'Registrarse',
+                      style: TextStyle(
+                        fontSize: 18.sp,
+                      ),
+                    ),
                   ),
-                  const SizedBox(height: 20.0),
-                  Have(),
+                  SizedBox(height: 20.h),
+                  GestureDetector(
+                    onTap: widget.showLogin,
+                    child: Text(
+                      '¿Ya tienes una cuenta? Inicia sesión',
+                      style: TextStyle(
+                        color: gray700,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void _showVerificationMessage() {
-    if (context.mounted) {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Correo de Verificación Enviado'),
-            content: const Text(
-                'Un correo de verificación ha sido enviado a tu correo electrónico. Por favor revisa tu bandeja de entrada.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Aceptar'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
-  Widget Have() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          const Text(
-            "No tienes cuenta?",
-            style: TextStyle(
-              fontSize: 14.0,
-              color: Colors.grey,
-            ),
-          ),
-          GestureDetector(
-            onTap: widget.show,
-            child: const Text(
-              "Iniciar Sesión",
-              style: TextStyle(
-                fontSize: 15.0,
-                color: Colors.blue,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -96,7 +96,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
         title: const Text(
           'Subir imagen',
@@ -115,7 +115,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 },
                 child: Text(
                   'Siguiente',
-                  style: TextStyle(fontSize: 15.sp, color: Colors.blue),
+                  style: TextStyle(
+                      fontSize: 15.sp,
+                      color: const Color.fromARGB(255, 160, 119, 179)),
                 ),
               ),
             ),

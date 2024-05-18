@@ -131,7 +131,7 @@ class _AddReelsScreenState extends State<AddReelsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         centerTitle: false,
         title: Row(
@@ -149,7 +149,7 @@ class _AddReelsScreenState extends State<AddReelsScreen> {
               },
               child: const Text(
                 'Siguiente',
-                style: TextStyle(color: Colors.blue),
+                style: TextStyle(color: Color.fromARGB(255, 160, 119, 179)),
               ),
             ),
           ],
@@ -185,7 +185,7 @@ class _AddReelsScreenState extends State<AddReelsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _openGallery,
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromARGB(255, 160, 119, 179),
         child: const Icon(Icons.video_call),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,

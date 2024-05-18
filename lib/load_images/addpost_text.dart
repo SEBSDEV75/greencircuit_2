@@ -25,7 +25,7 @@ class _AddPostTextScreenState extends State<AddPostTextScreen> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
         title: const Text(
           'Nuevo Post',
@@ -56,7 +56,9 @@ class _AddPostTextScreenState extends State<AddPostTextScreen> {
                 },
                 child: Text(
                   'Subir',
-                  style: TextStyle(color: Colors.blue, fontSize: 15.sp),
+                  style: TextStyle(
+                      color: const Color.fromARGB(255, 160, 119, 179),
+                      fontSize: 15.sp),
                 ),
               ),
             ),

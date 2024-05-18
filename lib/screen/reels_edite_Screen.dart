@@ -44,7 +44,7 @@ class _ReelsEditeScreenState extends State<ReelsEditeScreen> {
           'Subir Reels',
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
       ),
       body: SafeArea(
@@ -123,7 +123,7 @@ class _ReelsEditeScreenState extends State<ReelsEditeScreen> {
                             height: 45.h,
                             width: 150.w,
                             decoration: BoxDecoration(
-                              color: Colors.blue,
+                              color: const Color.fromARGB(255, 160, 119, 179),
                               borderRadius: BorderRadius.circular(10.r),
                             ),
                             child: Text(
