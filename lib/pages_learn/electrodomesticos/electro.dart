@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants.dart';
 import '../moviles/programs_Samsung.dart';
 import '../moviles/programs_Xiaomi.dart';
 import '../moviles/programs_iPhone.dart';
@@ -91,7 +92,7 @@ class ElectrodomesticosPage extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(17.0),
-          backgroundColor: theme.primaryColor,
+          backgroundColor: gray500,
           elevation: 7.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(45.0),

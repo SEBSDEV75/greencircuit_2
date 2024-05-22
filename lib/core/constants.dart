@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 //Theme.of(context).primaryColor
 //color: const Color.fromARGB(255, 160, 119, 179)
 const Color primary = Color.fromARGB(255, 233, 238, 233);
-const Color secondary = Color.fromARGB(255, 72, 87, 73);
+const Color secondary = Color.fromARGB(255, 32, 34, 32);
 const Color gray900 = Color.fromARGB(255, 33, 33, 33);
 const Color gray700 = Color.fromARGB(255, 64, 68, 60);
+const Color gray500 = Color.fromARGB(255, 47, 39, 56);
 const Color icons = Color.fromARGB(255, 160, 140, 196);
 const Color icons2 = Color.fromARGB(255, 167, 117, 177);
 

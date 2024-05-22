@@ -12,6 +12,7 @@ import 'package:greencircuit/screen/reelsScreen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../core/constants.dart';
+import '../map/map.dart';
 
 class Navigations_Screen extends StatefulWidget {
   const Navigations_Screen({super.key});
@@ -61,23 +62,23 @@ class _Navigations_ScreenState extends State<Navigations_Screen> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: '',
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '',
+            icon: Icon(Icons.map),
+            label: 'Mapa',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera),
-            label: '',
+            label: 'Subir imágenes',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.video_library_rounded),
-            label: '',
+            label: 'Reels',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: '',
+            label: 'Perfil',
           ),
         ],
       ),
@@ -86,7 +87,7 @@ class _Navigations_ScreenState extends State<Navigations_Screen> {
         onPageChanged: onPageChanged,
         children: [
           const HomeScreen(),
-          const ExploreScreen(),
+          const MapPage(),
           const AddScreen(),
           const ReelScreen(),
           ProfileScreen(

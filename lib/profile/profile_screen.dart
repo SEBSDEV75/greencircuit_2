@@ -56,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 1,
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: SafeArea(
@@ -234,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 30.h,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: yourse ? gray900 : gray900,
+                    color: yourse ? gray500 : gray500,
                     borderRadius: BorderRadius.circular(5.r),
                     border: Border.all(color: Theme.of(context).primaryColor),
                   ),
@@ -317,8 +317,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               indicatorColor: icons2,
               tabs: [
                 Icon(Icons.grid_on),
-                Icon(Icons.video_collection),
-                Icon(Icons.person),
               ],
             ),
           ),

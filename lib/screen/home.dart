@@ -14,6 +14,7 @@ import '../pages_learn/electrodomesticos/electro.dart';
 import '../pages_learn/jugetes/jugetes.dart';
 import '../pages_learn/moviles/moviles.dart';
 import '../pages_learn/tablets/tablets.dart';
+import 'explore.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -46,8 +47,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: SvgPicture.asset(
                   'images/greencircuit.svg',
                   width: 60,
-                  height: 60,
+                  height: 40,
                 ),
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.search,
+                  size: 35,
+                  color: icons,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ExploreScreen(),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -59,6 +75,16 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 19, vertical: 5),
+                child: Text(
+                  'Aprende más sobre el reciclaje en dispositivos electronicos',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: icons2,
+                  ),
+                ),
+              ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -127,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
-          backgroundColor: gray900,
+          backgroundColor: gray500,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(35),
           ),

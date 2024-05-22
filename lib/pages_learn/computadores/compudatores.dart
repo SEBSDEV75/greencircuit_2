@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../core/constants.dart';
 import 'programs_computers_Mac.dart';
 import 'programs_computers_Windows.dart';
 
@@ -76,7 +77,7 @@ class ComputadoresPage extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(17.0),
-          backgroundColor: theme.primaryColor,
+          backgroundColor: gray500,
           elevation: 7.0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(45.0),
