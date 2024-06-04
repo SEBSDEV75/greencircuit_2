@@ -3,7 +3,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:greencircuit/widgets/post_widget.dart';
 
 import '../core/constants.dart';
@@ -36,20 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         flexibleSpace: Padding(
-          padding: const EdgeInsets.only(top: 43.0, left: 200),
+          padding: const EdgeInsets.only(top: 43.0, right: 20.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              GestureDetector(
-                onTap: () {
-                  scaffoldKey.currentState?.openDrawer();
-                },
-                child: SvgPicture.asset(
-                  'images/greencircuit.svg',
-                  width: 60,
-                  height: 40,
-                ),
-              ),
               IconButton(
                 icon: const Icon(
                   Icons.search,
@@ -78,9 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 19, vertical: 5),
                 child: Text(
-                  'Aprende más sobre el reciclaje en dispositivos electronicos',
+                  'APRENDE MÁS SOBRE EL RECICLAJE EN DISPOSITIVOS ELECTRÓNICOS',
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 12,
                     color: icons2,
                   ),
                 ),

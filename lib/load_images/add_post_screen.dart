@@ -99,8 +99,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
         title: const Text(
-          'Subir imagen',
-          style: TextStyle(color: Colors.black),
+          'Imagen del dispositivo electrónico',
+          style: TextStyle(fontSize: 20, color: Colors.black),
         ),
         centerTitle: false,
         actions: [

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:greencircuit/pages_learn/baterias/pilas.dart';
+import 'package:greencircuit/pages_learn/baterias/que.dart';
 
 import '../../core/constants.dart';
-import '../moviles/programs_Samsung.dart';
-import '../moviles/programs_Xiaomi.dart';
-import '../moviles/programs_iPhone.dart';
 
 class BateriasPage extends StatelessWidget {
   const BateriasPage({super.key});
@@ -32,13 +31,13 @@ class BateriasPage extends StatelessWidget {
               children: [
                 _buildButton(
                   context,
-                  'Reciclaje para telefonos Samsung',
-                  Icons.phone_android,
+                  '¿Qué son las pilas?',
+                  Icons.battery_5_bar_rounded,
                   () {
                     showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
-                        return const ProgramsSamsungPage();
+                        return const Programsque();
                       },
                     );
                   },
@@ -46,27 +45,13 @@ class BateriasPage extends StatelessWidget {
                 ),
                 _buildButton(
                   context,
-                  'Reciclaje para telefonos Xiaomi',
-                  Icons.phone_android_rounded,
+                  'Reciclaje para pilas',
+                  Icons.battery_charging_full,
                   () {
                     showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context) {
-                        return const ProgramsXiaomiPage();
-                      },
-                    );
-                  },
-                  buttonWidth,
-                ),
-                _buildButton(
-                  context,
-                  'Reciclaje para telefonos iPhone',
-                  Icons.phone_iphone,
-                  () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return const ProgramsiPhonePage();
+                        return const Programspilas();
                       },
                     );
                   },

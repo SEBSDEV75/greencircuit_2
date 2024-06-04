@@ -204,14 +204,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 5.h),
-                Text(
-                  user.bio,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
               ],
             ),
           ),

@@ -5,6 +5,7 @@ import 'package:greencircuit/firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:greencircuit/core/theme_notifier.dart';
+import 'package:greencircuit/data/firebase_service/control.dart';
 
 import 'core/constants.dart';
 
@@ -14,8 +15,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => ThemeNotifier(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeNotifier()),
+        ChangeNotifierProvider(
+            create: (context) =>
+                RegistrationController()), // Agrega el ChangeNotifierProvider para RegistrationController
+      ],
       child: const MyApp(),
     ),
   );

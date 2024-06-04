@@ -16,7 +16,6 @@ class Firebase_Firestor {
   Future<bool> CreateUser({
     required String email,
     required String username,
-    required String bio,
     required String profile,
   }) async {
     await _firebaseFirestore
@@ -25,7 +24,6 @@ class Firebase_Firestor {
         .set({
       'email': email,
       'username': username,
-      'bio': bio,
       'profile': profile,
       'followers': [],
       'following': [],
@@ -40,13 +38,8 @@ class Firebase_Firestor {
           .doc(UID ?? _auth.currentUser!.uid)
           .get();
       final snapuser = user.data()!;
-      return Usermodel(
-          snapuser['bio'],
-          snapuser['email'],
-          snapuser['followers'],
-          snapuser['following'],
-          snapuser['profile'],
-          snapuser['username']);
+      return Usermodel(snapuser['email'], snapuser['followers'],
+          snapuser['following'], snapuser['profile'], snapuser['username']);
     } on FirebaseException catch (e) {
       throw exceptions(e.message.toString());
     }
@@ -121,7 +114,7 @@ class Firebase_Firestor {
     required String uid,
     required String postId,
   }) async {
-    String res = 'some error';
+    String res = 'Ocurrio un error';
     try {
       if (like.contains(uid)) {
         _firebaseFirestore.collection(type).doc(postId).update({

@@ -2,9 +2,10 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:greencircuit/auth/auth_screen.dart';
 import 'package:greencircuit/screen/home.dart';
 import 'package:greencircuit/widgets/navigation.dart';
+
+import '../register/login_signup.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -18,7 +19,7 @@ class MainPage extends StatelessWidget {
           if (snapshot.hasData) {
             return const Navigations_Screen();
           } else {
-            return const AuthScreen();
+            return const RegistrationPage();
           }
         },
       ),

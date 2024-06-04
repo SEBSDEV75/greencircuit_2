@@ -137,8 +137,8 @@ class _AddReelsScreenState extends State<AddReelsScreen> {
         title: Row(
           children: [
             const Text(
-              'Subir Reels',
-              style: TextStyle(color: Colors.black),
+              'Video del dispositivo electrónico',
+              style: TextStyle(fontSize: 20, color: Colors.black),
             ),
             const Spacer(),
             GestureDetector(
