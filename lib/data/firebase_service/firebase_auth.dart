@@ -39,18 +39,16 @@ class Authentication {
     String URL = '';
     try {
       if (email.isNotEmpty && password.isNotEmpty && username.isNotEmpty) {
-        final userCredential = await _auth.createUserWithEmailAndPassword(
+        await _auth
+            .createUserWithEmailAndPassword(
           email: email.trim(),
           password: password.trim(),
-        );
+        )
+            .then((credential) {
+          credential.user?.sendEmailVerification();
+          credential.user?.updateDisplayName(username);
+        });
 
-        final user = userCredential.user;
-        if (user != null) {
-          // Actualizar el nombre de usuario
-          await user.updateDisplayName(username);
-        }
-
-        // Crear usuario en Firestore
         if (profile != null && profile.path.isNotEmpty) {
           URL = await StorageMethod().uploadImageToStorage('Profile', profile);
         }
@@ -68,7 +66,6 @@ class Authentication {
     } on FirebaseException catch (e) {
       throw exceptions(e.message.toString());
     } catch (e) {
-      // Manejar la excepción y mostrar un mensaje de error
       if (kDebugMode) {
         print('Error durante el registro: $e');
       }
@@ -76,16 +73,11 @@ class Authentication {
     }
   }
 
-  Future<void> resetPassword({required String email}) async {
-    await _auth.sendPasswordResetEmail(email: email);
-  }
+  Future<void> resetPassword({required String email}) =>
+      _auth.sendPasswordResetEmail(email: email);
 
   Future<void> logout() async {
-    try {
-      await _auth.signOut();
-    } catch (e) {
-      rethrow;
-    }
+    await _auth.signOut();
   }
 
   Future<void> reloadUser() async {

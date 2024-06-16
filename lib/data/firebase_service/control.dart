@@ -1,23 +1,21 @@
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/constants.dart';
-import '../../core/dialogs.dart';
+import '../../widgets/navigation.dart';
 import 'firebase_auth.dart';
 
 class RegistrationController extends ChangeNotifier {
-  bool _isRegisterMode = true;
-  bool get isRegisterMode => _isRegisterMode;
-  set isRegisterMode(bool value) {
-    _isRegisterMode = value;
-    notifyListeners();
-  }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  bool isPasswordHidden = true;
 
-  bool _isPasswordHidden = true;
-  bool get isPasswordHidden => _isPasswordHidden;
-  set isPasswordHidden(bool value) {
-    _isPasswordHidden = value;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  set isLoading(bool value) {
+    _isLoading = value;
     notifyListeners();
   }
 
@@ -45,52 +43,102 @@ class RegistrationController extends ChangeNotifier {
 
   String get password => _password;
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-  set isLoading(bool value) {
-    _isLoading = value;
-    notifyListeners();
-  }
+  FirebaseAuth get auth => _auth;
 
   Future<void> authenticateWithEmailAndPassword({
     required BuildContext context,
+    File? profileImage,
   }) async {
     isLoading = true;
     try {
-      if (_isRegisterMode) {
-        await Authentication().signup(
-          username: username,
-          email: email,
-          password: password,
-        );
+      // Registro de usuario
+      await Authentication().signup(
+        username: username,
+        email: email,
+        password: password,
+      );
+      // Verificación del correo electrónico
+      if (!context.mounted) return;
+      showMessageDialog(
+        context: context,
+        message:
+            'Un correo de verificación ha sido enviado a tu correo, por favor revisa tu bandeja de entrada.',
+      );
 
-        if (!context.mounted) return;
-        showMessageDialog(
-          context: context,
-          message:
-              'Registro exitoso. Ahora puedes acceder a todo el contenido.',
+      // Actualizar el usuario hasta que el correo electrónico esté verificado
+      while (!Authentication().isEmailVerified) {
+        await Future.delayed(
+          const Duration(seconds: 5),
+          () => Authentication().user?.reload(),
         );
-      } else {
-        await Authentication().login(email: email, password: password);
+      }
+
+      // Mostrar mensaje de bienvenida una vez verificado
+      if (context.mounted) {
+        showWelcomeDialog(context);
       }
     } on FirebaseAuthException catch (e) {
       if (!context.mounted) return;
       showMessageDialog(
         context: context,
-        message: authExceptionMapper[e.code] ?? '¡Ha ocurrido un error!1',
+        message: authExceptionMapper[e.code] ?? 'A ocurrido un error!',
       );
     } catch (e) {
       if (!context.mounted) return;
-      if (kDebugMode) {
-        print(e.toString());
-      }
       showMessageDialog(
         context: context,
-        message: '¡Ha ocurrido un error!2',
+        message: 'A ocurrido un error!',
       );
     } finally {
       isLoading = false;
     }
+  }
+
+  void showMessageDialog({
+    required BuildContext context,
+    required String message,
+    String? actionLabel,
+    VoidCallback? action,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              action?.call();
+            },
+            child: Text(actionLabel ?? 'Aceptar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showWelcomeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('¡Bienvenido a GreenCircuit!'),
+        content: const Text(
+            'Gracias por verificar tu correo. ¡Bienvenido a la comunidad GreenCircuit!'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const Navigations_Screen()),
+              );
+            },
+            child: const Text('Continuar'),
+          ),
+        ],
+      ),
+    );
   }
 
   // Método para restablecer la contraseña
@@ -99,27 +147,29 @@ class RegistrationController extends ChangeNotifier {
     required String email,
   }) async {
     isLoading = true;
+    notifyListeners();
     try {
       await Authentication().resetPassword(email: email);
       if (!context.mounted) return;
       showMessageDialog(
           context: context,
           message:
-              'Un correo de recuperación ha sido enviado a $email. Abre el link para cambiar tu contraseña.');
+              'Un correo de verificación ha sido enviado a $email. Asegúrate de revisar tu bandeja de entrada.');
     } on FirebaseAuthException catch (e) {
       if (!context.mounted) return;
       showMessageDialog(
         context: context,
-        message: authExceptionMapper[e.code] ?? '¡Ha ocurrido un error!3',
+        message: authExceptionMapper[e.code] ?? 'A ocurrido un error!',
       );
     } catch (e) {
       if (!context.mounted) return;
       showMessageDialog(
         context: context,
-        message: '¡Ha ocurrido un error!4',
+        message: 'A ocurrido un error!',
       );
     } finally {
       isLoading = false;
+      notifyListeners();
     }
   }
 }

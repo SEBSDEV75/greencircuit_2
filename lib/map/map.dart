@@ -60,7 +60,7 @@ class _MapScreenState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mapa'),
+        title: const Text('Puntos de reciclaje'),
       ),
       body: GoogleMap(
         mapType: MapType.normal,

@@ -8,36 +8,38 @@ import 'package:greencircuit/util/image_cached.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Comment extends StatefulWidget {
-  String type;
-  String uid;
-  Comment(this.type, this.uid, {super.key});
+  final String type;
+  final String uid;
+
+  const Comment(this.type, this.uid, {super.key});
 
   @override
   State<Comment> createState() => _CommentState();
 }
 
 class _CommentState extends State<Comment> {
-  final comment = TextEditingController();
+  final commentController = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(25.r),
-        topRight: Radius.circular(25.r),
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(25),
+        topRight: Radius.circular(25),
       ),
       child: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
-        height: 200.h,
+        height: MediaQuery.of(context).size.height * 0.5,
         child: Stack(
           children: [
             Positioned(
-              top: 8.h,
-              left: 140.w,
+              top: 8,
+              left: MediaQuery.of(context).size.width * 0.5 - 50,
               child: Container(
-                width: 100.w,
-                height: 3.h,
+                width: 100,
+                height: 3,
                 color: Colors.black,
               ),
             ),
@@ -48,17 +50,16 @@ class _CommentState extends State<Comment> {
                   .collection('comments')
                   .snapshots(),
               builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(child: CircularProgressIndicator());
+                }
                 return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20.h),
+                  padding: const EdgeInsets.symmetric(vertical: 20),
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      if (!snapshot.hasData) {
-                        return const CircularProgressIndicator();
-                      }
                       return commentItem(snapshot.data!.docs[index].data());
                     },
-                    itemCount:
-                        snapshot.data == null ? 0 : snapshot.data!.docs.length,
+                    itemCount: snapshot.data!.docs.length,
                   ),
                 );
               },
@@ -68,17 +69,17 @@ class _CommentState extends State<Comment> {
               right: 0,
               left: 0,
               child: Container(
-                height: 60.h,
+                height: 60,
                 width: double.infinity,
                 color: Theme.of(context).scaffoldBackgroundColor,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
-                      height: 45.h,
-                      width: 260.w,
+                      height: 45,
+                      width: MediaQuery.of(context).size.width * 0.7,
                       child: TextField(
-                        controller: comment,
+                        controller: commentController,
                         maxLines: 4,
                         decoration: const InputDecoration(
                           hintText: 'Añadir un comentario',
@@ -90,28 +91,24 @@ class _CommentState extends State<Comment> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        if (comment.text.isNotEmpty) {
-                          Firebase_Firestor().Comments(
-                            comment: comment.text,
+                      onTap: () async {
+                        if (commentController.text.isNotEmpty) {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await Firebase_Firestor().Comments(
+                            comment: commentController.text,
                             type: widget.type,
                             uidd: widget.uid,
                           );
+                          setState(() {
+                            isLoading = false;
+                            commentController.clear();
+                          });
                         }
-                        setState(() {
-                          isLoading = false;
-                          comment.clear();
-                        });
                       },
                       child: isLoading
-                          ? SizedBox(
-                              width: 10.w,
-                              height: 10.h,
-                              child: const CircularProgressIndicator(),
-                            )
+                          ? const CircularProgressIndicator()
                           : Icon(
                               Icons.send,
                               color: Theme.of(context).colorScheme.secondary,
@@ -131,8 +128,8 @@ class _CommentState extends State<Comment> {
     return ListTile(
       leading: ClipOval(
         child: SizedBox(
-          height: 35.h,
-          width: 35.w,
+          height: 35,
+          width: 35,
           child: CachedImage(
             snapshot['profileImage'],
           ),
@@ -141,7 +138,7 @@ class _CommentState extends State<Comment> {
       title: Text(
         snapshot['username'],
         style: TextStyle(
-          fontSize: 13.sp,
+          fontSize: 13,
           fontWeight: FontWeight.bold,
           color: Theme.of(context).textTheme.bodyLarge!.color,
         ),
@@ -149,7 +146,7 @@ class _CommentState extends State<Comment> {
       subtitle: Text(
         snapshot['comment'],
         style: TextStyle(
-          fontSize: 13.sp,
+          fontSize: 13,
           color: Theme.of(context).textTheme.bodyLarge!.color,
         ),
       ),

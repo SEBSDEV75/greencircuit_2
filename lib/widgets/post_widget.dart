@@ -1,18 +1,18 @@
-// ignore_for_file: prefer_typing_uninitialized_variables, override_on_non_overriding_member
-
+// ignore_for_file: prefer_typing_uninitialized_variables, override_on_non_overriding_member, unused_import
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_format/date_format.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:greencircuit/data/firebase_service/firestor.dart';
 import 'package:greencircuit/util/image_cached.dart';
-import 'package:greencircuit/widgets/comment.dart';
-import 'package:greencircuit/widgets/like_animation.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:greencircuit/widgets/full_screen_image_page.dart';
 
 import '../core/constants.dart';
+import 'comment.dart';
+import 'like_animation.dart';
 
 class PostWidget extends StatefulWidget {
-  final snapshot;
+  final dynamic snapshot;
   const PostWidget(this.snapshot, {super.key});
 
   @override
@@ -20,13 +20,12 @@ class PostWidget extends StatefulWidget {
 }
 
 class _PostWidgetState extends State<PostWidget> {
-  @override
   bool isAnimating = false;
   String user = '';
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   void initState() {
-    // : implement initState
     super.initState();
     user = _auth.currentUser!.uid;
   }
@@ -40,29 +39,28 @@ class _PostWidgetState extends State<PostWidget> {
     return Column(
       children: [
         Container(
-          width: 375.w,
-          height: 54.h,
+          width: double.infinity,
           color: themeData.primaryColor,
           child: Center(
             child: ListTile(
               leading: ClipOval(
                 child: SizedBox(
-                  width: 35.w,
-                  height: 35.h,
+                  width: 35,
+                  height: 35,
                   child: CachedImage(widget.snapshot['profileImage']),
                 ),
               ),
               title: Text(
                 widget.snapshot['username'],
                 style: TextStyle(
-                  fontSize: 13.sp,
+                  fontSize: 13,
                   color: textColor,
                 ),
               ),
               subtitle: Text(
                 widget.snapshot['location'],
                 style: TextStyle(
-                  fontSize: 11.sp,
+                  fontSize: 11,
                   color: textColor,
                 ),
               ),
@@ -81,15 +79,23 @@ class _PostWidgetState extends State<PostWidget> {
               isAnimating = true;
             });
           },
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FullScreenImagePage(
+                  imageURL: widget.snapshot['postImage'],
+                ),
+              ),
+            );
+          },
           child: Stack(
             alignment: Alignment.center,
             children: [
               SizedBox(
-                width: 375.w,
-                height: 375.h,
-                child: CachedImage(
-                  widget.snapshot['postImage'],
-                ),
+                width: double.infinity,
+                height: 375,
+                child: CachedImage(widget.snapshot['postImage']),
               ),
               AnimatedOpacity(
                 duration: const Duration(milliseconds: 200),
@@ -103,26 +109,26 @@ class _PostWidgetState extends State<PostWidget> {
                       isAnimating = false;
                     });
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.favorite,
-                    size: 100.w,
+                    size: 100,
                     color: Colors.red,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
         Container(
-          width: 375.w,
-          color: Theme.of(context).primaryColor,
+          width: double.infinity,
+          color: themeData.primaryColor,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 14.h),
+              const SizedBox(height: 14),
               Row(
                 children: [
-                  SizedBox(width: 14.w),
+                  const SizedBox(width: 14),
                   LikeAnimation(
                     isAnimating: widget.snapshot['like'].contains(user),
                     child: IconButton(
@@ -140,11 +146,11 @@ class _PostWidgetState extends State<PostWidget> {
                         color: widget.snapshot['like'].contains(user)
                             ? Colors.red
                             : icons,
-                        size: 24.w,
+                        size: 24,
                       ),
                     ),
                   ),
-                  SizedBox(width: 17.w),
+                  const SizedBox(width: 17),
                   GestureDetector(
                     onTap: () {
                       showBottomSheet(
@@ -170,37 +176,35 @@ class _PostWidgetState extends State<PostWidget> {
                     },
                     child: Image.asset(
                       'images/comment.webp',
-                      height: 28.h,
+                      height: 28,
                       color: icons,
                     ),
                   ),
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(
-                  left: 30.w,
-                  top: 4.h,
-                  bottom: 8.h,
+                padding: const EdgeInsets.only(
+                  left: 30,
+                  top: 4,
+                  bottom: 8,
                 ),
                 child: Text(
                   widget.snapshot['like'].length.toString(),
-                  style: TextStyle(
-                    fontSize: 13.sp,
+                  style: const TextStyle(
+                    fontSize: 13,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
                   children: [
                     Expanded(
                       child: Text(
-                        widget.snapshot['username'] +
-                            ' :  ' +
-                            widget.snapshot['caption'],
-                        style: TextStyle(
-                          fontSize: 13.sp,
+                        '${widget.snapshot['username']} :  ${widget.snapshot['caption']}',
+                        style: const TextStyle(
+                          fontSize: 13,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -209,15 +213,16 @@ class _PostWidgetState extends State<PostWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 15.w, top: 20.h, bottom: 8.h),
+                padding: const EdgeInsets.only(left: 15, top: 20, bottom: 8),
                 child: Text(
                   formatDate(widget.snapshot['time'].toDate(),
                       [yyyy, '-', mm, '-', dd]),
                   style: TextStyle(
-                      fontSize: 11.sp,
-                      color: Theme.of(context).brightness == Brightness.dark
-                          ? Colors.black
-                          : const Color.fromARGB(255, 0, 0, 0)),
+                    fontSize: 11,
+                    color: themeData.brightness == Brightness.dark
+                        ? Colors.black
+                        : const Color.fromARGB(255, 0, 0, 0),
+                  ),
                 ),
               ),
             ],

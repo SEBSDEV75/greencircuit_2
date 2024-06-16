@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+    final isDesktop = MediaQuery.of(context).size.width > 600;
     return Scaffold(
       key: scaffoldKey,
       resizeToAvoidBottomInset: true,
@@ -110,18 +111,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   .orderBy('time', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      if (!snapshot.hasData) {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                      return PostWidget(snapshot.data!.docs[index].data());
-                    },
-                    childCount:
-                        snapshot.data == null ? 0 : snapshot.data!.docs.length,
-                  ),
-                );
+                if (!snapshot.hasData) {
+                  return const SliverFillRemaining(
+                    child: Center(child: CircularProgressIndicator()),
+                  );
+                }
+                final posts = snapshot.data!.docs;
+                return isDesktop
+                    ? SliverGrid(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 1,
+                        ),
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => PostWidget(posts[index].data()),
+                          childCount: posts.length,
+                        ),
+                      )
+                    : SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => PostWidget(posts[index].data()),
+                          childCount: posts.length,
+                        ),
+                      );
               },
             )
           ],

@@ -18,9 +18,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeNotifier()),
-        ChangeNotifierProvider(
-            create: (context) =>
-                RegistrationController()), // Agrega el ChangeNotifierProvider para RegistrationController
+        ChangeNotifierProvider(create: (context) => RegistrationController()),
       ],
       child: const MyApp(),
     ),
