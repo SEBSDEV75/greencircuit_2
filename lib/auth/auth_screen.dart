@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:greencircuit/register/login_screen.dart';
-import 'package:greencircuit/register/signup.dart';
+import 'package:greencircuit/screen/register/login_screen.dart';
+import 'package:greencircuit/screen/register/signup.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});

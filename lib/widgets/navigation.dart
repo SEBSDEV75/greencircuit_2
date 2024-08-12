@@ -4,11 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:greencircuit/load_images/add_screen.dart';
-import 'package:greencircuit/screen/explor_screen.dart';
-import 'package:greencircuit/screen/explore.dart';
+import 'package:greencircuit/screen/explore/explor_screen.dart';
+import 'package:greencircuit/screen/explore/explore.dart';
 import 'package:greencircuit/screen/home.dart';
 import 'package:greencircuit/profile/profile_screen.dart';
-import 'package:greencircuit/screen/reelsScreen.dart';
+import 'package:greencircuit/screen/reel/reelsScreen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../core/constants.dart';

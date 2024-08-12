@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:greencircuit/data/firebase_service/firestor.dart';
 import 'package:greencircuit/data/model/usermodel.dart';
@@ -15,8 +14,8 @@ import '../core/constants.dart';
 import 'profile_settings_page.dart';
 
 class ProfileScreen extends StatefulWidget {
-  String Uid;
-  ProfileScreen({super.key, required this.Uid});
+  final String Uid;
+  const ProfileScreen({Key? key, required this.Uid}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -25,22 +24,23 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  int post_lenght = 0;
-  bool yourse = false;
+  int postLength = 0;
+  bool isYourself = false;
   List following = [];
-  bool follow = false;
+  bool isFollowing = false;
+
   @override
   void initState() {
     super.initState();
-    getdata();
+    getData();
     if (widget.Uid == _auth.currentUser!.uid) {
       setState(() {
-        yourse = true;
+        isYourself = true;
       });
     }
   }
 
-  getdata() async {
+  getData() async {
     DocumentSnapshot snap = await _firebaseFirestore
         .collection('users')
         .doc(_auth.currentUser!.uid)
@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     following = (snap.data()! as dynamic)['following'];
     if (following.contains(widget.Uid)) {
       setState(() {
-        follow = true;
+        isFollowing = true;
       });
     }
   }
@@ -62,15 +62,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: SafeArea(
           child: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: FutureBuilder(
-                  future: Firebase_Firestor().getUser(UID: widget.Uid),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return Head(snapshot.data!);
-                  },
+              SliverAppBar(
+                expandedHeight: 200.h,
+                pinned: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: const Text('Perfil'),
+                  background: FutureBuilder(
+                    future: Firebase_Firestor().getUser(UID: widget.Uid),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return Head(snapshot.data!);
+                    },
+                  ),
                 ),
               ),
               StreamBuilder(
@@ -81,22 +86,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return const SliverToBoxAdapter(
-                        child: Center(child: CircularProgressIndicator()));
+                      child: Center(child: CircularProgressIndicator()),
+                    );
                   }
-                  post_lenght = snapshot.data!.docs.length;
+                  postLength = snapshot.data!.docs.length;
                   return SliverGrid(
                     delegate: SliverChildBuilderDelegate((context, index) {
                       final snap = snapshot.data!.docs[index];
                       return GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => PostScreen(snap.data())));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => PostScreen(snap.data()),
+                            ),
+                          );
                         },
-                        child: CachedImage(
-                          snap['postImage'],
-                        ),
+                        child: CachedImage(snap['postImage']),
                       );
-                    }, childCount: post_lenght),
+                    }, childCount: postLength),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
@@ -113,7 +120,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  // ignore: non_constant_identifier_names
   Widget Head(Usermodel user) {
     return Container(
       color: Theme.of(context).primaryColor,
@@ -139,7 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
                       SizedBox(width: 35.w),
                       Text(
-                        post_lenght.toString(),
+                        postLength.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.sp,
@@ -168,28 +174,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SizedBox(width: 30.w),
                       Text(
                         'Posts',
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                        ),
+                        style: TextStyle(fontSize: 13.sp),
                       ),
                       SizedBox(width: 25.w),
                       Text(
                         'Seguidores',
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                        ),
+                        style: TextStyle(fontSize: 13.sp),
                       ),
                       SizedBox(width: 19.w),
                       Text(
                         'Seguidos',
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                        ),
+                        style: TextStyle(fontSize: 13.sp),
                       ),
                     ],
                   ),
                 ],
-              )
+              ),
             ],
           ),
           Padding(
@@ -200,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text(
                   user.username,
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -208,53 +208,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           SizedBox(height: 20.h),
-          Visibility(
-            visible: !follow,
-            child: Padding(
+          if (!isFollowing)
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 13.w),
               child: GestureDetector(
                 onTap: () {
-                  if (yourse == false) {
+                  if (!isYourself) {
                     Firebase_Firestor().flollow(uid: widget.Uid);
                     setState(() {
-                      follow = true;
+                      isFollowing = true;
                     });
                   }
                 },
                 child: Container(
                   alignment: Alignment.center,
-                  height: 30.h,
+                  height: 40.h,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: yourse ? gray500 : gray500,
+                    color: isYourself ? gray500 : primary,
                     borderRadius: BorderRadius.circular(5.r),
                     border: Border.all(color: Theme.of(context).primaryColor),
                   ),
-                  child: yourse
-                      ? GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const ProfileSettingsPage(),
-                            ));
-                          },
-                          child: const Text(
-                            'Edita tu perfil',
-                            style: TextStyle(
-                              color: white,
-                            ),
-                          ),
-                        )
-                      : const Text(
-                          'Seguir',
-                          style: TextStyle(color: white),
-                        ),
+                  child: Text(
+                    isYourself ? 'Edita tu perfil' : 'Seguir',
+                    style: TextStyle(color: white, fontSize: 16.sp),
+                  ),
                 ),
               ),
             ),
-          ),
-          Visibility(
-            visible: follow,
-            child: Padding(
+          if (isFollowing)
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 13.w),
               child: Row(
                 children: [
@@ -263,46 +246,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onTap: () {
                         Firebase_Firestor().flollow(uid: widget.Uid);
                         setState(() {
-                          follow = false;
+                          isFollowing = false;
                         });
                       },
                       child: Container(
-                          alignment: Alignment.center,
-                          height: 30.h,
-                          width: 100.w,
-                          decoration: BoxDecoration(
-                            color: gray900,
-                            borderRadius: BorderRadius.circular(5.r),
-                            border: Border.all(color: gray900),
-                          ),
-                          child: const Text('Dejar de seguir')),
+                        alignment: Alignment.center,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                          color: gray900,
+                          borderRadius: BorderRadius.circular(5.r),
+                          border: Border.all(color: gray900),
+                        ),
+                        child: Text(
+                          'Dejar de seguir',
+                          style: TextStyle(color: white, fontSize: 16.sp),
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(width: 8.w),
                   Expanded(
                     child: Container(
                       alignment: Alignment.center,
-                      height: 30.h,
-                      width: 100.w,
+                      height: 40.h,
                       decoration: BoxDecoration(
                         color: gray900,
                         borderRadius: BorderRadius.circular(5.r),
                         border: Border.all(color: gray900),
                       ),
-                      child: const Text(
+                      child: Text(
                         'Mensaje',
-                        style: TextStyle(color: gray900),
+                        style: TextStyle(color: white, fontSize: 16.sp),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 10.h),
           SizedBox(
             width: double.infinity,
-            height: 30.h,
+            height: 40.h,
             child: const TabBar(
               unselectedLabelColor: icons,
               labelColor: icons2,
@@ -312,9 +296,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-          SizedBox(
-            height: 5.h,
-          )
+          SizedBox(height: 10.h),
         ],
       ),
     );

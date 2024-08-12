@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../widgets/navigation.dart';
+import '../../widgets/navigation.dart';
 
 class WelcomeDialog extends StatelessWidget {
   const WelcomeDialog({Key? key}) : super(key: key);

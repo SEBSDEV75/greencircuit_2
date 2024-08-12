@@ -13,7 +13,7 @@ import '../pages_learn/electrodomesticos/electro.dart';
 import '../pages_learn/jugetes/jugetes.dart';
 import '../pages_learn/moviles/moviles.dart';
 import '../pages_learn/tablets/tablets.dart';
-import 'explore.dart';
+import 'explore/explore.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../screen/reels_edite_Screen.dart';
+import '../screen/reel/reels_edite_Screen.dart';
 
 class AddReelsScreen extends StatefulWidget {
   const AddReelsScreen({Key? key}) : super(key: key);

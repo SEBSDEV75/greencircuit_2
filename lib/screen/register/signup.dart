@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../core/constants.dart';
-import '../core/validator.dart';
-import '../data/firebase_service/control.dart';
-import '../util/imagepicker.dart';
+import '../../core/constants.dart';
+import '../../core/validator.dart';
+import '../../data/firebase_service/control.dart';
+import '../../util/imagepicker.dart';
 
 class SignupScreen extends StatefulWidget {
   final VoidCallback showLogin;

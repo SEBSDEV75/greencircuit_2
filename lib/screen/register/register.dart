@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../core/constants.dart';
-import '../core/validator.dart';
-import '../data/firebase_service/control.dart';
-import '../widgets/note_back_button.dart';
-import '../widgets/note_button.dart';
-import '../widgets/note_form_field.dart';
+import '../../core/constants.dart';
+import '../../core/validator.dart';
+import '../../data/firebase_service/control.dart';
+import '../../widgets/note_back_button.dart';
+import '../../widgets/note_button.dart';
+import '../../widgets/note_form_field.dart';
 
 class RecoverPasswordpage extends StatefulWidget {
   const RecoverPasswordpage({super.key});

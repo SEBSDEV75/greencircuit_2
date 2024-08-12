@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:greencircuit/data/firebase_service/firebase_auth.dart';
 import 'package:greencircuit/util/dialog.dart';
 
-import '../core/constants.dart';
+import '../../core/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback showSignup;
